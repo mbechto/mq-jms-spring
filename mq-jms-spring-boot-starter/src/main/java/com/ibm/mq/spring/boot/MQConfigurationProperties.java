@@ -658,16 +658,16 @@ public class MQConfigurationProperties {
     this.additionalProperties = properties;
   }
 
-  public void traceProperties() {
+  public void traceProperties(MQConnectionDetails connectionDetails) {
     if (!logger.isTraceEnabled())
       return;
 
-    logger.trace("queueManager    : {}", getQueueManager());
+    logger.trace("queueManager    : {}", connectionDetails.getQueueManager());
     logger.trace("applicationName : {}", getApplicationName());
     logger.trace("ccdtUrl         : {}", getCcdtUrl());
-    logger.trace("channel         : {}", getChannel());
+    logger.trace("channel         : {}", connectionDetails.getChannel());
     logger.trace("clientId        : {}", getClientId());
-    logger.trace("connName        : {}", getConnName());
+    logger.trace("connName        : {}", connectionDetails.getConnName());
     logger.trace("reconnectOption : \'{}\' [{}]", getReconnect(), String.format("0x%08X", getReconnectValue()));
     logger.trace("reconnectTimeout: {}", getReconnectTimeout());
     logger.trace("sslCipherSpec   : {}", getSslCipherSpec());
@@ -680,12 +680,12 @@ public class MQConfigurationProperties {
     logger.trace("tempModel       : {}", getTempModel());
     logger.trace("tempQPrefix     : {}", getTempQPrefix());
     logger.trace("tempTopicPrefix : {}", getTempTopicPrefix());
-    logger.trace("user            : \'{}\'", getUser());
+    logger.trace("user            : \'{}\'", connectionDetails.getUser());
     /*
      * Obviously we don't want to trace a password. But it is OK to indicate whether
      * one has been configured
      */
-    logger.trace("password set    : {}", (getPassword() != null && getPassword().length() > 0) ? "YES" : "NO");
+    logger.trace("password set    : {}", (connectionDetails.getPassword() != null && connectionDetails.getPassword().length() > 0) ? "YES" : "NO");
     logger.trace("token set       : {}", (getToken() != null && getToken().length() > 0) ? "YES" : "NO");
 
     logger.trace("sslFIPSRequired        : {}", isSslFIPSRequired());

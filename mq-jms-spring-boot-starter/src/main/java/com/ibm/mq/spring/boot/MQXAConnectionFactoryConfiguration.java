@@ -45,16 +45,16 @@ class MQXAConnectionFactoryConfiguration {
 
   @Primary
   @Bean(name = { "jmsConnectionFactory", "xaJmsConnectionFactory" })
-  public ConnectionFactory jmsConnectionFactory(MQConfigurationProperties properties, ObjectProvider<SslBundles> sslBundles, ObjectProvider<List<MQConnectionFactoryCustomizer>> factoryCustomizers, XAConnectionFactoryWrapper wrapper) throws Exception {
+  public ConnectionFactory jmsConnectionFactory(MQConnectionDetails connectionDetails, MQConfigurationProperties properties, ObjectProvider<SslBundles> sslBundles, ObjectProvider<List<MQConnectionFactoryCustomizer>> factoryCustomizers, XAConnectionFactoryWrapper wrapper) throws Exception {
     logger.trace("Creating MQXAConnectionFactory");
-    MQXAConnectionFactory connectionFactory = new MQConnectionFactoryFactory(properties, sslBundles.getIfAvailable(), factoryCustomizers.getIfAvailable()).createConnectionFactory(MQXAConnectionFactory.class);
+    MQXAConnectionFactory connectionFactory = new MQConnectionFactoryFactory(connectionDetails, properties, sslBundles.getIfAvailable(), factoryCustomizers.getIfAvailable()).createConnectionFactory(MQXAConnectionFactory.class);
     return wrapper.wrapConnectionFactory(connectionFactory);
   }
 
   @Bean
-  public ConnectionFactory nonXaJmsConnectionFactory(MQConfigurationProperties properties, ObjectProvider<SslBundles> sslBundles, ObjectProvider<List<MQConnectionFactoryCustomizer>> factoryCustomizers) {
+  public ConnectionFactory nonXaJmsConnectionFactory(MQConnectionDetails connectionDetails, MQConfigurationProperties properties, ObjectProvider<SslBundles> sslBundles, ObjectProvider<List<MQConnectionFactoryCustomizer>> factoryCustomizers) {
     logger.trace("Creating non-XA MQConnectionFactory");
-    return new MQConnectionFactoryFactory(properties, sslBundles.getIfAvailable(), factoryCustomizers.getIfAvailable()).createConnectionFactory(MQConnectionFactory.class);
+    return new MQConnectionFactoryFactory(connectionDetails, properties, sslBundles.getIfAvailable(), factoryCustomizers.getIfAvailable()).createConnectionFactory(MQConnectionFactory.class);
   }
 
 }

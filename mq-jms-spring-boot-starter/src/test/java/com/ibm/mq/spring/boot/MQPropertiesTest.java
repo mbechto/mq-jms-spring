@@ -32,6 +32,9 @@ public class MQPropertiesTest {
     @Autowired
     MQConfigurationProperties properties;
 
+    @Autowired
+    MQConnectionDetails connectionDetails;
+
     @Test
     public void test() {
       
@@ -49,5 +52,14 @@ public class MQPropertiesTest {
         assertThat(properties.getSslCipherSpec()).isEqualTo("CIPHER_SPEC");
         assertThat(properties.getSslPeerName()).isEqualTo("CN=Mark,OU=IBM,C=GB");
         assertThat(properties.getCcdtUrl()).isEqualTo("file:///home/admdata/ccdt1.tab");
+    }
+
+    @Test
+    public void testConnectionDetailsFallsBackToProperties() {
+        assertThat(connectionDetails.getConnName()).isEqualTo(properties.getConnName());
+        assertThat(connectionDetails.getQueueManager()).isEqualTo(properties.getQueueManager());
+        assertThat(connectionDetails.getChannel()).isEqualTo(properties.getChannel());
+        assertThat(connectionDetails.getUser()).isEqualTo(properties.getUser());
+        assertThat(connectionDetails.getPassword()).isEqualTo(properties.getPassword());
     }
 }
